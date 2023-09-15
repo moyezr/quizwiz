@@ -42,7 +42,7 @@ export async function POST(req: Request, res: Response) {
         Put the in a JSON list format as following:
         {
         "question": "<The question>",
-        "answer": "<The  answer>",
+        "answer": "<The exact answer. Don't write 'Option Number' here! >",
         "options": ["<option1>", "<option2>", "<option3>", "<option4>"]
         }
         
