@@ -20,6 +20,13 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import LoadingQuestions from "./LoadingQuestions";
 import { useRouter } from "next/navigation";
+import { Question } from "@prisma/client";
+
+type openAiResponse = {
+  question: string,
+  answer: string,
+  options: string[]
+};
 
 type Props = {};
 
@@ -43,14 +50,39 @@ const QuizCreationForm = (props: Props) => {
     setIsLoading(true);
     setFinished(false);
     try {
-      const response = await axios.post("/api/game", {
+      const {data: { questions }}= await axios.post(
+        "/api/questions/create",
+        {
+          topic,
+          questionNumber,
+        }
+      );
+
+      const gameCreationResponse = await axios.post("/api/game", {
         topic,
         questionNumber,
       });
 
-      const { gameId } = response.data;
+      const { gameId } = gameCreationResponse.data;
 
-      console.log("SUCCEEDED", response.data);
+
+
+      let formattedQuestions = questions.map((item: openAiResponse) => {
+        return {
+          question: item.question,
+          answer: item.answer,
+          options: JSON.stringify(item.options),
+          gameId: gameId,
+        };
+      }) as Question[];
+
+
+      // adding Questions to databse
+      let questionAdditionResponse = await axios.post("/api/questions/add", {
+        questions: formattedQuestions
+      });
+
+
       router.push(`/play/${gameId}`);
     } catch (error) {
       console.log(error);

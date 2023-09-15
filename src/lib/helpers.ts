@@ -37,7 +37,6 @@ export function getTimeTaken(endTime: Date, startTime: Date) {
 
   let differenceInMilliseconds = endMilli - startMilli;
 
-  console.log("difference in milliseconds", differenceInMilliseconds);
 
   let displayMessage: string = ``;
 
@@ -79,7 +78,7 @@ export function getTrophyColorAndFeedback(percentageCorrect: number): {
   if (percentageCorrect <= 25) {
     trophyColor = "tomato";
     feedback = "Time to hit the books, Dumbbass!";
-  } else if (percentageCorrect > 25 && percentageCorrect < 60) {
+  } else if (percentageCorrect > 25 && percentageCorrect <= 60) {
     trophyColor = "sienna";
     feedback = "Not Bad!";
   } else if (percentageCorrect > 60 && percentageCorrect < 100) {
