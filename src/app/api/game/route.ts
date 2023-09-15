@@ -48,7 +48,7 @@ export async function POST(req: Request, res: Response) {
 
     const prompt = `You are a quiz master. 
 
-        Generate ${questionNumber} multiple-choice type questions with randome hardness on topic ${topic} with one answer and three other options excluding the answer.
+        Generate ${questionNumber} multiple-choice type questions with randome hardness on topic ${topic} with one answer and four other options the answer.
         
         Put the in a JSON list format as following:
         {
@@ -100,14 +100,10 @@ export async function POST(req: Request, res: Response) {
     const gameId = game.id;
 
     let formattedQuestions = parsedQuestions.map((item) => {
-      let options = [...item.options, item.answer];
-
-      shuffle(options);
-
       return {
         question: item.question,
         answer: item.answer,
-        options: JSON.stringify(options),
+        options: JSON.stringify(item.options),
         gameId: gameId,
       };
     }) as Question[];

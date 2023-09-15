@@ -3,7 +3,7 @@ import { z } from "zod"
 export const questionSchema = z.object({
     question: z.string(),
     answer: z.string(),
-    options: z.string().array().length(3)
+    options: z.string().array().length(4)
 })
 
 export const apiResponseSchema = z.array(questionSchema);
