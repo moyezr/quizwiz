@@ -10,7 +10,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -21,11 +20,14 @@ import { useState } from "react";
 import LoadingQuestions from "./LoadingQuestions";
 import { useRouter } from "next/navigation";
 import { Question } from "@prisma/client";
+import { promptGenerator } from "@/lib/utils";
+import { apiResponseSchema } from "@/schemas/questionSchema";
+import { useToast } from "./ui/use-toast";
 
 type openAiResponse = {
-  question: string,
-  answer: string,
-  options: string[]
+  question: string;
+  answer: string;
+  options: string[];
 };
 
 type Props = {};
@@ -34,6 +36,8 @@ const QuizCreationForm = (props: Props) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [finished, setFinished] = useState<boolean>(true);
+
+  const {toast} = useToast();
 
   const form = useForm<z.infer<typeof quizCreationSchema>>({
     resolver: zodResolver(quizCreationSchema),
@@ -50,41 +54,68 @@ const QuizCreationForm = (props: Props) => {
     setIsLoading(true);
     setFinished(false);
     try {
-      const {data: { questions }}= await axios.post(
-        "/api/questions/create",
+
+      // use this when generating questions using serverless api
+      // const {data: { questions }}= await axios.post(
+      //   "/api/questions/create",
+      //   {
+      //     topic,
+      //     questionNumber,
+      //   }
+      // );
+      
+      const prompt = promptGenerator(topic, questionNumber); // Generates the prompt by prompt engineering for generating questions
+
+      const response = await axios.post(
+        "https://api.openai.com/v1/chat/completions", // directly using the rest api from openai due to limited timeout capacity of nextjs serverless functions
         {
-          topic,
-          questionNumber,
+          model: "gpt-3.5-turbo", // model of chatgpt.
+          messages: [{ role: "user", content: prompt }],
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+
+            Authorization: `Bearer ${process.env.NEXT_PUBLIC_OPENAI_KEY}`,
+          },
         }
       );
 
-      const gameCreationResponse = await axios.post("/api/game", {
+      // console.log("GENERATAED QUESTIONS", response.data.choices[0].message.content) // testing purpose -> logging out the response generated from openai
+
+      let questions = response.data.choices[0].message.content;
+
+      questions = JSON.parse(questions as string); // converting the generated questions into json format
+      let parsedQuestions = apiResponseSchema.parse(questions); // parsing with zod to see if there are any type errors
+
+      const gameCreationResponse = await axios.post("/api/game", { // creating the game to get the gameId
         topic,
         questionNumber,
       });
 
-      const { gameId } = gameCreationResponse.data;
+      const { gameId } = gameCreationResponse.data; // getting the gameId
 
-
-
-      let formattedQuestions = questions.map((item: openAiResponse) => {
+      let formattedQuestions = questions.map((item: openAiResponse) => { // formatting the questions to post it into the database
         return {
           question: item.question,
           answer: item.answer,
           options: JSON.stringify(item.options),
-          gameId: gameId,
+          gameId: gameId, // relating it with the game
         };
       }) as Question[];
 
-
-      // adding Questions to databse
-      let questionAdditionResponse = await axios.post("/api/questions/add", {
-        questions: formattedQuestions
+      // adding Questions to database
+      let questionAdditionResponse = await axios.post("/api/questions/add", { // adding questions to the database
+        questions: formattedQuestions,
       });
 
-
-      router.push(`/play/${gameId}`);
+      router.push(`/play/${gameId}`); // pushing to the play page
     } catch (error) {
+      toast({
+        title: "Error Generating Questions",
+        description: "Couldn't generate quesitons",
+        variant: "destructive",
+      });
       console.log(error);
     } finally {
       setIsLoading(false);
@@ -92,7 +123,7 @@ const QuizCreationForm = (props: Props) => {
     }
   }
 
-  if (!finished) {
+  if (!finished  || isLoading) {
     return <LoadingQuestions finished={finished} />;
   }
 

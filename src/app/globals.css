@@ -100,7 +100,7 @@
   }
 
   .text-gradient { 
-    background-image: radial-gradient( circle farthest-corner at 10% 20%,  rgb(91, 184, 255) 0%, rgb(144, 236, 254) 90.1% );
+    background-image: radial-gradient( circle farthest-corner at 10% 20%,  #5bb8ff 0%, rgb(144, 236, 254) 90.1% );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }

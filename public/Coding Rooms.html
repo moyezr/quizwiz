@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Coding Rooms</title>
+    <base href="/"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png"/>
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png"/>
+    <link rel="manifest" href="/favicons/site.webmanifest"/>
+    <link rel="mask-icon" href="/favicons/safari-pinned-tab.svg" color="#1d4e79"/>
+    <link rel="shortcut icon" href="/favicons/favicon.ico"/>
+    <meta name="msapplication-TileColor" content="#da532c"/>
+    <meta name="msapplication-config" content="/favicons/browserconfig.xml"/>
+    <meta name="theme-color" content="#f5f5f5"/>
+    <!-- inline spinner styles to be able to display spinner right away -->
+    <style type="text/css">
+      body,
+      html {
+        height: 100%;
+      }
+
+      .app-loading {
+        text-align: center;
+        margin-top: 80px;
+      }
+
+      .app-loading .spinner {
+        position: relative;
+        display: inline-block;
+        height: 3.6rem;
+        width: 3.6rem;
+        min-height: 3.6rem;
+        min-width: 3.6rem;
+        -webkit-animation: spin 1s linear infinite;
+        animation: spin 1s linear infinite;
+        margin: 0;
+        padding: 0;
+        background: url(data:image/svg+xml;charset=utf8,%3Csvg%20id%3D%22Layer_2%22%20data-name%3D%22Layer%202%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2072%2072%22%3E%0A%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%3Cstyle%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20.cls-1%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20.cls-2%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20fill%3A%20none%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20stroke-miterlimit%3A%2010%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20stroke-width%3A%205px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20.cls-1%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20stroke%3A%20%23000000%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20stroke-opacity%3A%200.15%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20.cls-2%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20stroke%3A%20%230072a3%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20%3C%2Fstyle%3E%0A%20%20%20%20%3C%2Fdefs%3E%0A%20%20%20%20%3Ctitle%3EPreloader_72x2%3C%2Ftitle%3E%0A%20%20%20%20%3Ccircle%20class%3D%22cls-1%22%20cx%3D%2236%22%20cy%3D%2236%22%20r%3D%2233%22%2F%3E%0A%20%20%20%20%3Cpath%20class%3D%22cls-2%22%20d%3D%22M14.3%2C60.9A33%2C33%2C0%2C0%2C1%2C36%2C3%22%3E%0A%20%20%20%20%3C%2Fpath%3E%0A%3C%2Fsvg%3E%0A);
+        text-indent: 100%;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+    </style>
+    <script>
+      var APP_ID = "abd1zjas";
+      (function () {
+        var w = window;
+        var ic = w.Intercom;
+        if (typeof ic === "function") {
+          ic("reattach_activator");
+          ic("update", w.intercomSettings);
+        } else {
+          var d = document;
+          var i = function () {
+            i.c(arguments);
+          };
+          i.q = [];
+          i.c = function (args) {
+            i.q.push(args);
+          };
+          w.Intercom = i;
+          var l = function () {
+            var s = d.createElement("script");
+            s.type = "text/javascript";
+            s.async = true;
+            s.src = "https://widget.intercom.io/widget/" + APP_ID;
+            var x = d.getElementsByTagName("script")[0];
+            x.parentNode.insertBefore(s, x);
+          };
+          if (document.readyState === "complete") {
+            l();
+          } else if (w.attachEvent) {
+            w.attachEvent("onload", l);
+          } else {
+            w.addEventListener("load", l, false);
+          }
+        }
+      })();
+    </script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-164273209-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+
+      gtag("js", new Date());
+
+      gtag("config", "UA-164273209-1");
+    </script>
+    <!-- reCAPTCHA Enterprise -->
+    <script src="https://www.google.com/recaptcha/enterprise.js?render=6LdkWXcaAAAAAFgZu7aVO0WKExJ0JE6eLgFz_prM"></script>
+    <!-- headwayapp -->
+    <script async="" src="https://cdn.headwayapp.co/widget.js"></script>
+  <link rel="stylesheet" href="styles.3047e7fcba85e17a25a3.css"></head>
+  <body>
+    <app-root>
+      <!-- loading layout replaced by app after startup -->
+      <div class="app-loading">
+        <span class="spinner"> Loading... </span>
+      </div>
+    </app-root>
+  <script src="runtime-es2015.c81104f1ed7f3e1a8bdf.js" type="module"></script><script src="runtime-es5.c81104f1ed7f3e1a8bdf.js" nomodule defer></script><script src="polyfills-es5.28412db9afcf7db190f2.js" nomodule defer></script><script src="polyfills-es2015.59d6b3fdc659e0fe4331.js" type="module"></script><script src="scripts.9e21103538b6a584ba71.js" defer></script><script src="main-es2015.9f85e2788ded096751e5.js" type="module"></script><script src="main-es5.9f85e2788ded096751e5.js" nomodule defer></script></body>
+</html>

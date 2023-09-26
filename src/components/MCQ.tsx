@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import { Card } from "./ui/card";
 import { cn } from "@/lib/utils";
 import { Button } from "./ui/button";
-import Timer from "@/components/Timer";
 import CorrectIncorrect from "./CorrectIncorrect";
 import { Prisma } from "@prisma/client";
 import axios from "axios";
