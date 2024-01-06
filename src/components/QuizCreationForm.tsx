@@ -81,6 +81,8 @@ const QuizCreationForm = (props: Props) => {
         }
       );
 
+      // console.log("RESPONSE", response)
+
       // console.log("GENERATAED QUESTIONS", response.data.choices[0].message.content) // testing purpose -> logging out the response generated from openai
 
       let questions = response.data.choices[0].message.content;
