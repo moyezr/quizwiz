@@ -34,9 +34,9 @@ export default async function Home() {
 
           {session ? (
             <Link href="/dashboard">
-              <Button className="text-3xl px-8 py-8 font-semibold dark:text-gray-700 rounded-full">
+              <button className="border border-gray-400 text-3xl bg-gradient-to-br from-transparent to-gray-300/20 backdrop-blur-xl px-8 rounded-full py-2 dark:text-gray-200 text-gray-700 tracking-wide hover:shadow-gray-500 hover:shadow-md transition ">
                 Play
-              </Button>
+              </button>
             </Link>
           ) : (
             <SignInButton />

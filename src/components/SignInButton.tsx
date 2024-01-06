@@ -7,7 +7,7 @@ type Props = {}
 
 const SignInButton = (props: Props) => {
   return (
-    <Button  className="text-3xl px-8 py-8 font-semibold dark:text-gray-700 rounded-full" onClick={async () => {
+    <Button  className="border-" onClick={async () => {
       await signIn("google")
     }} variant="default" >
     Play
