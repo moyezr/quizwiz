@@ -13,7 +13,7 @@ export function promptGenerator(topic: string, questionNumber: number): string {
   const prompt: string = `
   You are a quiz master. 
 
-        Generate ${questionNumber} multiple-choice type questions with randome hardness on topic ${topic} with one answer and four other options.
+        Generate ${questionNumber} multiple-choice type questions with random hardness on topic """${topic}""" with one answer and three other options.
         
         Put the in a JSON list format as following:
         {
@@ -22,6 +22,7 @@ export function promptGenerator(topic: string, questionNumber: number): string {
         "options": ["<option1>", "<option2>", "<option3>", "<option4>"]
         }
         
+        Make sure the options array contains 3 incorrect options and one correct option shuffled randomly.
         Only answer with the JSON array, nothing else.
   `;
 
