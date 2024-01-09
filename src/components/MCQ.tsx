@@ -10,6 +10,7 @@ import axios from "axios";
 import { useToast } from "./ui/use-toast";
 import { useRouter } from "next/navigation";
 import QuizCounter from "./QuizCounter";
+import { Loader2 } from "lucide-react";
 
 type Props = {
   questions:
@@ -29,6 +30,7 @@ const MCQ = ({ questions, gameId }: Props) => {
   const [questionIndex, setQuestionIndex] = useState<number>(0);
   const [correctAnswers, setCorrectAnswers] = useState<number>(0);
   const [wrongAnswers, setWrongAnswers] = useState<number>(0);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const router = useRouter();
 
@@ -54,6 +56,7 @@ const MCQ = ({ questions, gameId }: Props) => {
 
   async function handleNext() {
     try {
+      setIsLoading(true);
       const response = await axios.post("/api/check-answer", {
         questionId: questions![questionIndex].id,
         // @ts-ignore
@@ -89,6 +92,8 @@ const MCQ = ({ questions, gameId }: Props) => {
       setSelectedIndex(-1);
     } catch (error) {
       console.log("CLIENT ERROR CHECKING ANSWER", error);
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -105,7 +110,11 @@ const MCQ = ({ questions, gameId }: Props) => {
         />
       </div>
 
-      <Card className="text-bold px-4 py-2">
+      <Card
+        className={cn(`text-bold px-4 py-2`, {
+          isLoading: "opacity-60",
+        })}
+      >
         <h3 className="font-bold">{questions[questionIndex].question}</h3>
       </Card>
       {options.map((option, i) => {
@@ -114,16 +123,24 @@ const MCQ = ({ questions, gameId }: Props) => {
             key={i}
             onClick={() => selectOption(i)}
             type="button"
-            className={cn(`text-left px-4 py-2 cursor-pointer`)}
+            className={cn(`text-left px-4 py-2 cursor-pointer`, {
+              isLoading: "opacity-60",
+            })}
             variant={selectedIndex === i ? "default" : "outline"}
+            disabled={isLoading}
           >
             {option as string}
           </Button>
         );
       })}
 
-      <Button type="button" onClick={handleNext}>
-        Next
+      <Button
+        disabled={isLoading}
+        type="button"
+        className="flex items-center justify-center gap-4 disabled:cursor-not-allowed"
+        onClick={handleNext}
+      >
+        Next {isLoading && <Loader2 className="h-4 w-4 animate-spin" />}
       </Button>
     </div>
   );
