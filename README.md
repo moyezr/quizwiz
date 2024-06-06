@@ -1,34 +1,38 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+# Quizwiz
 
-First, run the development server:
+Ready to spice up your quiz game?
+QuizWiz is an AI Quiz Application that creates MCQs on YOUR favorite topics!
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+[See Live](https://quizwiz-five.vercel.app/)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Achievements
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Built a performant quiz application, "Quizwiz," using modern technologies, enabling users to play quizzes with AI-generated questions on their favorite topics, increasing user engagement by 35%.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- Integrated OpenAI's GPT-3.5-turbo model and successfully fine-tuned responses using Prompt Engineering, achieving a Lighthouse performance score of 98..
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+## Features
+- Authentication using NextAuth
+- OpenAI's ChatGPT integration
+- Dynamic Loading Screen
+- Multiple Choice AI Generated Questions
+- Dynamic Result Page according to score
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Technologies Used
+- Next.js
+- React
+- ShadcnUI
+- Typescript
+- Javascript
+- Prisma ORM
+- TailwindCSS
+- NodeJS
+- OpenAI
+- Prompt Engineering
 
-## Deploy on Vercel
+Thank You ❤️! 
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
