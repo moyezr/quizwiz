@@ -1,5 +1,5 @@
 "use client";
-import { z } from "zod";
+import { z, ZodError } from "zod";
 import { quizCreationSchema } from "@/schemas/quizSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
@@ -37,7 +37,7 @@ const QuizCreationForm = (props: Props) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [finished, setFinished] = useState<boolean>(true);
 
-  const {toast} = useToast();
+  const { toast } = useToast();
 
   const form = useForm<z.infer<typeof quizCreationSchema>>({
     resolver: zodResolver(quizCreationSchema),
@@ -54,7 +54,6 @@ const QuizCreationForm = (props: Props) => {
     setIsLoading(true);
     setFinished(false);
     try {
-
       // use this when generating questions using serverless api
       // const {data: { questions }}= await axios.post(
       //   "/api/questions/create",
@@ -63,7 +62,6 @@ const QuizCreationForm = (props: Props) => {
       //     questionNumber,
       //   }
       // );
-      
       const prompt = promptGenerator(topic, questionNumber); // Generates the prompt by prompt engineering for generating questions
 
       const response = await axios.post(
@@ -71,6 +69,9 @@ const QuizCreationForm = (props: Props) => {
         {
           model: "gpt-3.5-turbo", // model of chatgpt.
           messages: [{ role: "user", content: prompt }],
+          response_format: {
+            type: "json_object",
+          },
         },
         {
           headers: {
@@ -81,23 +82,26 @@ const QuizCreationForm = (props: Props) => {
         }
       );
 
-      // console.log("RESPONSE", response)
+      // console.log("RESPONSE FROM OPEN AI", response.data);
 
-      // console.log("GENERATAED QUESTIONS", response.data.choices[0].message.content) // testing purpose -> logging out the response generated from openai
+      
+      let questions = JSON.parse(response.data.choices[0].message.content);
+      
+      // console.log("GENERATAED QUESTIONS", questions) // testing purpose -> logging out the response generated from openai
 
-      let questions = response.data.choices[0].message.content;
-
-      questions = JSON.parse(questions as string); // converting the generated questions into json format
       let parsedQuestions = apiResponseSchema.parse(questions); // parsing with zod to see if there are any type errors
+      // console.log("parsed questions", parsedQuestions)
 
-      const gameCreationResponse = await axios.post("/api/game", { // creating the game to get the gameId
+      const gameCreationResponse = await axios.post("/api/game", {
+        // creating the game to get the gameId
         topic,
         questionNumber,
       });
 
       const { gameId } = gameCreationResponse.data; // getting the gameId
 
-      let formattedQuestions = questions.map((item: openAiResponse) => { // formatting the questions to post it into the database
+      let formattedQuestions = parsedQuestions.questions.map((item: openAiResponse) => {
+        // formatting the questions to post it into the database
         return {
           question: item.question,
           answer: item.answer,
@@ -107,7 +111,8 @@ const QuizCreationForm = (props: Props) => {
       }) as Question[];
 
       // adding Questions to database
-      let questionAdditionResponse = await axios.post("/api/questions/add", { // adding questions to the database
+      let questionAdditionResponse = await axios.post("/api/questions/add", {
+        // adding questions to the database
         questions: formattedQuestions,
       });
 
@@ -118,14 +123,17 @@ const QuizCreationForm = (props: Props) => {
         description: "Couldn't generate quesitons",
         variant: "destructive",
       });
-      console.log(error);
+      console.log("Some error in generating questions", error);
+      if(error instanceof ZodError) {
+        console.log(error.message)
+      }
     } finally {
       setIsLoading(false);
       setFinished(true);
     }
   }
 
-  if (!finished  || isLoading) {
+  if (!finished || isLoading) {
     return <LoadingQuestions finished={finished} />;
   }
 

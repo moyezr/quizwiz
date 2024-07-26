@@ -58,7 +58,6 @@ export async function POST(req: Request, res: Response) {
       ],
     });
 
-
     console.log("OPEN AI RESPONSE", completions.choices[0].message.content)
 
     let questions = completions.choices[0].message.content;

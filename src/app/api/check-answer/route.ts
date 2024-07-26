@@ -6,8 +6,8 @@ export async function POST(req: Request, res: Response) {
 
     const { questionId, userAnswer, isLast, gameId } = body;
 
-    console.log("Question Id", questionId);
-    console.log("User answer", userAnswer);
+    // console.log("Question Id", questionId);
+    // console.log("User answer", userAnswer);
 
     const question = await prisma.question.findUnique({
       where: {
@@ -17,9 +17,9 @@ export async function POST(req: Request, res: Response) {
 
     // If the answered question is the last question
     if (isLast) {
-      console.log("This is the last question")
+      // console.log("This is the last question")
       if (question?.answer === userAnswer) {
-        console.log("Last Question and Correct Answer")
+        // console.log("Last Question and Correct Answer")
         await Promise.all([
           await prisma.question.update({
             where: {
@@ -78,7 +78,7 @@ export async function POST(req: Request, res: Response) {
           },
         });
 
-        console.log("Update", updateResponse);
+        // console.log("Update", updateResponse);
         return Response.json({ isCorrect: true }, { status: 200 });
       } else {
         const updateResponse = await prisma.question.update({
@@ -91,7 +91,7 @@ export async function POST(req: Request, res: Response) {
           },
         });
 
-        console.log("Update", updateResponse);
+        // console.log("Update", updatResponse);
 
         return Response.json({ isCorrect: false }, { status: 200 });
       }

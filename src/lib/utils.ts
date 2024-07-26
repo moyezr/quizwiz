@@ -15,15 +15,15 @@ export function promptGenerator(topic: string, questionNumber: number): string {
 
         Generate ${questionNumber} multiple-choice type questions with random hardness on topic """${topic}""" with one answer and three other options.
         
-        Put the in a JSON list format as following:
+        Put the result in a JSON array format as following:
         {
-        "question": "<The question>",
-        "answer": "<The exact answer. Don't write 'Option Number' here! >",
-        "options": ["<option1>", "<option2>", "<option3>", "<option4>"]
-        }
+          "question": "<The question>",
+          "answer": "<The exact answer. Don't write 'Option Number' here! >",
+          "options": ["<option1>", "<option2>", "<option3>", "<option4>"]
+        } under a "questions" key.
         
         Make sure the options array contains 3 incorrect options and one correct option shuffled randomly.
-        Only answer with the JSON array, nothing else.
+        Only answer with a JSON, nothing else.
   `;
 
   return prompt;

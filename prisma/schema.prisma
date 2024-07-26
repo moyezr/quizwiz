@@ -72,7 +72,7 @@ model Question {
   question          String
   answer            String
   gameId            String
-  options           Json // for mcq questions
+  options           String // for mcq questions
   isCorrect         Boolean? // for mcq questions
   userAnswer        String?
 

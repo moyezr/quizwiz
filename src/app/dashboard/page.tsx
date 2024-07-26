@@ -44,7 +44,7 @@ const DashboardPage = async (props: Props) => {
 
   const games = await getRecentGames(session!.user.id);
 
-  console.log("GAMES", games);
+  // console.log("GAMES", games);
 
   return (
     <main className="w-full min-h-[60vh] flex flex-col gap-8">
@@ -71,7 +71,7 @@ const DashboardPage = async (props: Props) => {
           </CardDescription>
         </CardHeader>
 
-        <div className="flex flex-col gap-4 px-6 items-center justify-center">
+        <div className="flex flex-col-reverse gap-4 px-6 items-center justify-center">
           {games && games?.length > 0 ? (
             games?.map((item, i) => <HistoryItem item={item} key={i} />)
           ) : (

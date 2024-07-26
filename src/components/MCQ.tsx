@@ -56,6 +56,14 @@ const MCQ = ({ questions, gameId }: Props) => {
 
   async function handleNext() {
     try {
+      if(selectedIndex == -1) {
+
+        toast({
+          title: "Please select an option",
+          description: "You haven't selected an option"
+        })
+        return;
+      }
       setIsLoading(true);
       const response = await axios.post("/api/check-answer", {
         questionId: questions![questionIndex].id,
@@ -94,6 +102,7 @@ const MCQ = ({ questions, gameId }: Props) => {
       console.log("CLIENT ERROR CHECKING ANSWER", error);
     } finally {
       setIsLoading(false);
+      setSelectedIndex(-1);
     }
   }
 

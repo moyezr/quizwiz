@@ -103,8 +103,8 @@ const StatisticsPage = async ({ params: { gameId } }: Props) => {
             Here&apos;s how you performed in the last quiz
           </CardDescription>
         </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-2 gap-2">
+        <CardContent className="grid grid-cols-2 gap-2">
+
             {questions?.map((item, i) => (
               <>
                 <Card className="">
@@ -164,7 +164,7 @@ const StatisticsPage = async ({ params: { gameId } }: Props) => {
                 </Card>
               </>
             ))}
-          </div>
+
         </CardContent>
       </Card>
     </main>
